@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="认识HTML5的WebSocket 在HTML5规范中，我最喜欢的Web技术就是正迅速变得流行的WebSocket API。WebSocket提供了一个受欢迎的技术，以替代我们过去几年一直在用的Ajax技术。这个新的API提供了一个方法，从客户端使用简单的语法有效地推动消息到服务器。让我们看一看HTML5的WebSocket API：它可用于客户端、服务器端。而且有一个优秀的第三方API，名为So">
+<meta name="description" content="webpack是现在使用最广泛的打包工具，公司项目也一直使用。最近随着公司项目资源及文件慢慢庞大,打包速度越来越慢。因此上网搜索找到解决办法：使用webpack插件webpack.DllPlugin与webpack.DllReferencePlugin将不需要改动的第三方插件与自己的业务代码进行分开打包，首先：在项目根目录新建一个文件webpack.dll.config.js 12345678">
 <meta property="og:type" content="article">
-<meta property="og:title" content="认识HTML5的WebSocket（一）">
-<meta property="og:url" content="http://yoursite.com/2017/07/19/yyg-blog/index.html">
+<meta property="og:title" content="webpack优化打包速度之webpack.DllPlugin与webpack.DllReferencePlugin">
+<meta property="og:url" content="http://yoursite.com/2018/01/20/webpack优化打包速度之DllPlugin/index.html">
 <meta property="og:site_name" content="杨勇冠的博客">
-<meta property="og:description" content="认识HTML5的WebSocket 在HTML5规范中，我最喜欢的Web技术就是正迅速变得流行的WebSocket API。WebSocket提供了一个受欢迎的技术，以替代我们过去几年一直在用的Ajax技术。这个新的API提供了一个方法，从客户端使用简单的语法有效地推动消息到服务器。让我们看一看HTML5的WebSocket API：它可用于客户端、服务器端。而且有一个优秀的第三方API，名为So">
+<meta property="og:description" content="webpack是现在使用最广泛的打包工具，公司项目也一直使用。最近随着公司项目资源及文件慢慢庞大,打包速度越来越慢。因此上网搜索找到解决办法：使用webpack插件webpack.DllPlugin与webpack.DllReferencePlugin将不需要改动的第三方插件与自己的业务代码进行分开打包，首先：在项目根目录新建一个文件webpack.dll.config.js 12345678">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-30T09:37:27.440Z">
+<meta property="og:updated_time" content="2018-11-01T12:36:14.808Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="认识HTML5的WebSocket（一）">
-<meta name="twitter:description" content="认识HTML5的WebSocket 在HTML5规范中，我最喜欢的Web技术就是正迅速变得流行的WebSocket API。WebSocket提供了一个受欢迎的技术，以替代我们过去几年一直在用的Ajax技术。这个新的API提供了一个方法，从客户端使用简单的语法有效地推动消息到服务器。让我们看一看HTML5的WebSocket API：它可用于客户端、服务器端。而且有一个优秀的第三方API，名为So">
+<meta name="twitter:title" content="webpack优化打包速度之webpack.DllPlugin与webpack.DllReferencePlugin">
+<meta name="twitter:description" content="webpack是现在使用最广泛的打包工具，公司项目也一直使用。最近随着公司项目资源及文件慢慢庞大,打包速度越来越慢。因此上网搜索找到解决办法：使用webpack插件webpack.DllPlugin与webpack.DllReferencePlugin将不需要改动的第三方插件与自己的业务代码进行分开打包，首先：在项目根目录新建一个文件webpack.dll.config.js 12345678">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/07/19/yyg-blog/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/20/webpack优化打包速度之DllPlugin/"/>
 
 
 
 
 
-  <title>认识HTML5的WebSocket（一） | 杨勇冠的博客</title>
+  <title>webpack优化打包速度之webpack.DllPlugin与webpack.DllReferencePlugin | 杨勇冠的博客</title>
   
 
 
@@ -242,7 +242,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/19/yyg-blog/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/20/webpack优化打包速度之DllPlugin/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="杨勇冠">
@@ -259,7 +259,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">认识HTML5的WebSocket（一）</h1>
+          <h1 class="post-title" itemprop="name headline">webpack优化打包速度之webpack.DllPlugin与webpack.DllReferencePlugin</h1>
         
 
         <div class="post-meta">
@@ -271,8 +271,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-19T15:01:36+08:00">
-                2017-07-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-20T12:01:36+08:00">
+                2018-01-20
               </time>
             
 
@@ -309,25 +309,12 @@
       
 
       
-        <h2 id="认识HTML5的WebSocket"><a href="#认识HTML5的WebSocket" class="headerlink" title="认识HTML5的WebSocket"></a>认识HTML5的WebSocket</h2><blockquote>
-<p>在HTML5规范中，我最喜欢的Web技术就是正迅速变得流行的WebSocket API。WebSocket提供了一个受欢迎的技术，以替代我们过去几年一直在用的Ajax技术。这个新的API提供了一个方法，从客户端使用简单的语法有效地推动消息到服务器。让我们看一看HTML5的WebSocket API：它可用于客户端、服务器端。而且有一个优秀的第三方API，名为Socket.IO。</p>
-</blockquote>
-<h2 id="一、什么是WebSocket-API"><a href="#一、什么是WebSocket-API" class="headerlink" title="一、什么是WebSocket API?"></a>一、什么是WebSocket API?</h2><p>WebSocket API是下一代客户端-服务器的异步通信方法。该通信取代了单个的TCP套接字，使用ws或wss协议，可用于任意的客户端和服务器程序。WebSocket目前由W3C进行标准化。WebSocket已经受到Firefox 4、Chrome 4、Opera 10.70以及Safari 5等浏览器的支持。</p>
-<p>WebSocket API最伟大之处在于服务器和客户端可以在给定的时间范围内的任意时刻，相互推送信息。WebSocket并不限于以Ajax(或XHR)方式通信，因为Ajax技术需要客户端发起请求，而WebSocket服务器和客户端可以彼此相互推送信息；XHR受到域的限制，而WebSocket允许跨域通信。</p>
-<p>Ajax技术很聪明的一点是没有设计要使用的方式。WebSocket为指定目标创建，用于双向推送消息。</p>
-<h2 id="二、WebSocket-API的用法"><a href="#二、WebSocket-API的用法" class="headerlink" title="二、WebSocket API的用法"></a>二、WebSocket API的用法</h2><p>只专注于客户端的API，因为每个服务器端语言有自己的API。下面的代码片段是打开一个连接，为连接创建事件监听器，断开连接，消息时间，发送消息返回到服务器，关闭连接。</p>
-<p>// 创建一个Socket实例<br>var socket = new WebSocket(‘ws://localhost:8080’);</p>
-<p>// 打开Socket<br>socket.onopen = function(event) {</p>
-<p>  // 发送一个初始化消息<br>  socket.send(‘I am the client and I\’m listening!’);</p>
-<p>  // 监听消息<br>  socket.onmessage = function(event) {<br>    console.log(‘Client received a message’,event);<br>  };</p>
-<p>  // 监听Socket的关闭<br>  socket.onclose = function(event) {<br>    console.log(‘Client notified socket has closed’,event);<br>  };</p>
-<p>  // 关闭Socket….<br>  //socket.close()<br>};</p>
-<p>让我们来看看上面的初始化片段。参数为URL，ws表示WebSocket协议。onopen、onclose和onmessage方法把事件连接到Socket实例上。每个方法都提供了一个事件，以表示Socket的状态。</p>
-<p>onmessage事件提供了一个data属性，它可以包含消息的Body部分。消息的Body部分必须是一个字符串，可以进行序列化/反序列化操作，以便传递更多的数据。</p>
-<p>WebSocket的语法非常简单，使用WebSockets是难以置信的容易……除非客户端不支持WebSocket。IE浏览器目前不支持WebSocket通信。如果你的客户端不支持WebSocket通信，下面有几个后备方案供你使用：</p>
-<h2 id="三、WebSocket-后备方案"><a href="#三、WebSocket-后备方案" class="headerlink" title="三、WebSocket 后备方案"></a>三、WebSocket 后备方案</h2><p><strong>Flash技术</strong> —— Flash可以提供一个简单的替换。 使用Flash最明显的缺点是并非所有客户端都安装了Flash，而且某些客户端，如iPhone/iPad，不支持Flash。</p>
-<p><strong>AJAX Long-Polling技术</strong> —— 用AJAX的long-polling来模拟WebSocket在业界已经有一段时间了。它是一个可行的技术，但它不能优化发送的信息。也就是说，它是一个解决方案，但不是最佳的技术方案。</p>
-<p>由于目前的IE等浏览器不支持WebSocket，要提供WebSocket的事件处理、返回传输、在服务器端使用一个统一的API，那么该怎么办呢？幸运的是，Guillermo Rauch创建了一个Socket.IO技术。</p>
+        <p>  webpack是现在使用最广泛的打包工具，公司项目也一直使用。最近随着公司项目资源及文件慢慢庞大,打包速度越来越慢。因此上网搜索找到解决办法：<br>使用webpack插件webpack.DllPlugin与webpack.DllReferencePlugin将不需要改动的第三方插件与自己的业务代码进行分开打包，<br>首先：<br>在项目根目录新建一个文件webpack.dll.config.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path    = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">      vendor: [<span class="string">'vue-router'</span>,<span class="string">'vuex'</span>,<span class="string">'vue/dist/vue.common.js'</span>,<span class="string">'vue/dist/vue.js'</span>,<span class="string">'vue-loader/lib/component-normalizer.js'</span>,<span class="string">'vue'</span>]</span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: path.resolve(base.path),</span><br><span class="line">    filename: <span class="string">'[name].dll.js'</span>,</span><br><span class="line">    library: <span class="string">'[name]_library'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> webpack.DllPlugin(&#123;</span><br><span class="line">      path: path.resolve(<span class="string">'./dist'</span>, <span class="string">'[name]-manifest.json'</span>),</span><br><span class="line">      name: <span class="string">'[name]_library'</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将是用到的第三方插件添加到vendor中<br>然后：在webpack.config.js中添加代码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">    <span class="keyword">new</span> webpack.DllReferencePlugin(&#123;</span><br><span class="line">      manifest: <span class="built_in">require</span>(<span class="string">'./dist/vendor-manifest.json'</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<p>还需要在入口html文件中引入vendor.dll.js<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"./../vendor.dll.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure></p>
+<p>然后在package.json文件中添加快捷命令(划线句子），指定执行文件：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"build:dll"</span>: <span class="string">"webpack --config webpack.dll.config.js"</span></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure></p>
+<p>最后打包的时候首先执行npm run build:dll命令会在打包目录下生成<br>vendor-manifest.json文件与vendor.dll.js文件。<br>Dll这个概念应该是借鉴了Windows系统的dll。一个dll包，就是一个纯纯的依赖库，它本身不能运行，是用来给你的app引用的。<br>打包dll的时候，Webpack会将所有包含的库做一个索引，写在一个manifest文件中，而引用dll的代码（dll user）在打包的时候，只需要读取这个manifest文件，就可以了。<br>然后在执行npm run build<br>发现现在的webpack打包速度就快了很多。</p>
 
       
     </div>
@@ -352,15 +339,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018/01/10/按需加载babel-polyfill/" rel="next" title="按需加载babel-polyfill">
+                <i class="fa fa-chevron-left"></i> 按需加载babel-polyfill
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/09/07/前端经验/" rel="prev" title="为什么你的前端工作经验不值钱？">
-                为什么你的前端工作经验不值钱？ <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -412,17 +399,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -468,22 +446,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#认识HTML5的WebSocket"><span class="nav-number">1.</span> <span class="nav-text">认识HTML5的WebSocket</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一、什么是WebSocket-API"><span class="nav-number">2.</span> <span class="nav-text">一、什么是WebSocket API?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、WebSocket-API的用法"><span class="nav-number">3.</span> <span class="nav-text">二、WebSocket API的用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、WebSocket-后备方案"><span class="nav-number">4.</span> <span class="nav-text">三、WebSocket 后备方案</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
