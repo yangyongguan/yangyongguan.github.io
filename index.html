@@ -242,6 +242,183 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/28/web开发安全的API/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="杨勇冠">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/yyg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="杨勇冠的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/28/web开发安全的API/" itemprop="url">web开发安全的API</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-28T10:15:16+08:00">
+                2018-02-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>  以下是当你在设计, 测试以及发布你的 API 的时候所需要核对的重要安全措施</p>
+<hr>
+<h2 id="身份认证"><a href="#身份认证" class="headerlink" title="身份认证"></a>身份认证</h2><ul>
+<li>不要使用 Basic Auth 使用标准的认证协议 (如 JWT, OAuth).</li>
+<li>不要再造 Authentication, token generating, password storing 这些轮子, 使用标准的.</li>
+<li>在登录中使用 Max Retry 和自动封禁功能.</li>
+<li>加密所有的敏感数据.</li>
+</ul>
+<h2 id="JWT-JSON-Web-Token"><a href="#JWT-JSON-Web-Token" class="headerlink" title="JWT (JSON Web Token)"></a>JWT (JSON Web Token)</h2><ul>
+<li>使用随机复杂的密钥 (JWT Secret) 以增加暴力破解的难度.</li>
+<li>不要在请求体中直接提取数据, 要对数据进行加密 (HS256 或 RS256).</li>
+<li>使 token 的过期时间尽量的短 (TTL, RTTL).</li>
+<li>不要在 JWT 的请求体中存放敏感数据, 它是可破解的.</li>
+</ul>
+<h2 id="OAuth-授权或认证协议"><a href="#OAuth-授权或认证协议" class="headerlink" title="OAuth 授权或认证协议"></a>OAuth 授权或认证协议</h2><ul>
+<li>始终在后台验证 redirect_uri, 只允许白名单的 URL.</li>
+<li>每次交换令牌的时候不要加 token (不允许 response_type=token).</li>
+<li>使用 state 参数并填充随机的哈希数来防止跨站请求伪造(CSRF).</li>
+<li>对不同的应用分别定义默认的作用域和各自有效的作用域参数.</li>
+</ul>
+<h2 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h2><ul>
+<li>限制流量来防止 DDoS 攻击和暴力攻击.</li>
+<li>在服务端使用 HTTPS 协议来防止 MITM 攻击.</li>
+<li>使用 HSTS 协议防止 SSLStrip 攻击.</li>
+</ul>
+<h2 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h2><ul>
+<li>使用与操作相符的 HTTP 操作函数, GET (读取), POST (创建), PUT (替换/更新) 以及 DELETE (删除记录), 如果请求的方法不适用于请求的资源则返回 405 Method Not Allowed.</li>
+<li>在请求头中的 content-type 字段使用内容验证来只允许支持的格式 (如 application/xml, application/json 等等) 并在不满足条件的时候返回 406 Not Acceptable.</li>
+<li>验证 content-type 的发布数据和你收到的一样 (如 application/x-www-form-urlencoded, multipart/form-data, application/json 等等).</li>
+<li>验证用户输入来避免一些普通的易受攻击缺陷 (如 XSS, SQL-注入, 远程代码执行 等等).</li>
+<li>不要在 URL 中使用任何敏感的数据 (credentials, Passwords, security tokens, or API keys), 而是使用标准的认证请求头.</li>
+<li>使用一个 API Gateway 服务来启用缓存、访问速率限制 (如 Quota, Spike Arrest, Concurrent Rate Limit) 以及动态地部署 APIs resources.</li>
+</ul>
+<h2 id="处理"><a href="#处理" class="headerlink" title="处理"></a>处理</h2><ul>
+<li>检查是否所有的终端都在身份认证之后, 以避免被破坏了的认证体系.</li>
+<li>避免使用特有的资源 id. 使用 /me/orders 替代 /user/654321/orders</li>
+<li>使用 UUID 代替自增长的 id.</li>
+<li>如果需要解析 XML 文件, 确保实体解析(entity parsing)是关闭的以避免 XXE 攻击.</li>
+<li>如果需要解析 XML 文件, 确保实体扩展(entity expansion)是关闭的以避免通过指数实体扩展攻击实现的 Billion Laughs/XML bomb.</li>
+<li>在文件上传中使用 CDN.</li>
+<li>如果需要处理大量的数据, 使用 Workers 和 Queues 来快速响应, 从而避免 HTTP 阻塞.</li>
+<li>不要忘了把 DEBUG 模式关掉.</li>
+</ul>
+<h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><ul>
+<li>发送 X-Content-Type-Options: nosniff 头.</li>
+<li>发送 X-Frame-Options: deny 头.</li>
+<li>发送 Content-Security-Policy: default-src ‘none’ 头.</li>
+<li>删除指纹头 - X-Powered-By, Server, X-AspNet-Version 等等.</li>
+<li>在响应中强制使用 content-type, 如果你的类型是 application/json 那么你的 content-type 就是 application/json.</li>
+<li>不要返回敏感的数据, 如 credentials, Passwords, security tokens.</li>
+<li>在操作结束时返回恰当的状态码. (如 200 OK, 400 Bad Request, 401 Unauthorized, 405 Method Not Allowed 等等).</li>
+</ul>
+<h2 id="持续集成和持续部署"><a href="#持续集成和持续部署" class="headerlink" title="持续集成和持续部署"></a>持续集成和持续部署</h2><ul>
+<li>使用单元测试和集成测试来审计你的设计和实现.</li>
+<li>引入代码审查流程, 不要自行批准更改.</li>
+<li>在推送到生产环境之前确保服务的所有组件都用杀毒软件静态地扫描过, 包括第三方库和其它依赖.</li>
+<li>为部署设计一个回滚方案.</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/20/webpack优化打包速度之DllPlugin/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1724,147 +1901,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/19/yyg-blog/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="杨勇冠">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/img/yyg.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="杨勇冠的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/07/19/yyg-blog/" itemprop="url">认识HTML5的WebSocket（一）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-19T15:01:36+08:00">
-                2017-07-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="认识HTML5的WebSocket"><a href="#认识HTML5的WebSocket" class="headerlink" title="认识HTML5的WebSocket"></a>认识HTML5的WebSocket</h2><blockquote>
-<p>在HTML5规范中，我最喜欢的Web技术就是正迅速变得流行的WebSocket API。WebSocket提供了一个受欢迎的技术，以替代我们过去几年一直在用的Ajax技术。这个新的API提供了一个方法，从客户端使用简单的语法有效地推动消息到服务器。让我们看一看HTML5的WebSocket API：它可用于客户端、服务器端。而且有一个优秀的第三方API，名为Socket.IO。</p>
-</blockquote>
-<h2 id="一、什么是WebSocket-API"><a href="#一、什么是WebSocket-API" class="headerlink" title="一、什么是WebSocket API?"></a>一、什么是WebSocket API?</h2><p>WebSocket API是下一代客户端-服务器的异步通信方法。该通信取代了单个的TCP套接字，使用ws或wss协议，可用于任意的客户端和服务器程序。WebSocket目前由W3C进行标准化。WebSocket已经受到Firefox 4、Chrome 4、Opera 10.70以及Safari 5等浏览器的支持。</p>
-<p>WebSocket API最伟大之处在于服务器和客户端可以在给定的时间范围内的任意时刻，相互推送信息。WebSocket并不限于以Ajax(或XHR)方式通信，因为Ajax技术需要客户端发起请求，而WebSocket服务器和客户端可以彼此相互推送信息；XHR受到域的限制，而WebSocket允许跨域通信。</p>
-<p>Ajax技术很聪明的一点是没有设计要使用的方式。WebSocket为指定目标创建，用于双向推送消息。</p>
-<h2 id="二、WebSocket-API的用法"><a href="#二、WebSocket-API的用法" class="headerlink" title="二、WebSocket API的用法"></a>二、WebSocket API的用法</h2><p>只专注于客户端的API，因为每个服务器端语言有自己的API。下面的代码片段是打开一个连接，为连接创建事件监听器，断开连接，消息时间，发送消息返回到服务器，关闭连接。</p>
-<p>// 创建一个Socket实例<br>var socket = new WebSocket(‘ws://localhost:8080’);</p>
-<p>// 打开Socket<br>socket.onopen = function(event) {</p>
-<p>  // 发送一个初始化消息<br>  socket.send(‘I am the client and I\’m listening!’);</p>
-<p>  // 监听消息<br>  socket.onmessage = function(event) {<br>    console.log(‘Client received a message’,event);<br>  };</p>
-<p>  // 监听Socket的关闭<br>  socket.onclose = function(event) {<br>    console.log(‘Client notified socket has closed’,event);<br>  };</p>
-<p>  // 关闭Socket….<br>  //socket.close()<br>};</p>
-<p>让我们来看看上面的初始化片段。参数为URL，ws表示WebSocket协议。onopen、onclose和onmessage方法把事件连接到Socket实例上。每个方法都提供了一个事件，以表示Socket的状态。</p>
-<p>onmessage事件提供了一个data属性，它可以包含消息的Body部分。消息的Body部分必须是一个字符串，可以进行序列化/反序列化操作，以便传递更多的数据。</p>
-<p>WebSocket的语法非常简单，使用WebSockets是难以置信的容易……除非客户端不支持WebSocket。IE浏览器目前不支持WebSocket通信。如果你的客户端不支持WebSocket通信，下面有几个后备方案供你使用：</p>
-<h2 id="三、WebSocket-后备方案"><a href="#三、WebSocket-后备方案" class="headerlink" title="三、WebSocket 后备方案"></a>三、WebSocket 后备方案</h2><p><strong>Flash技术</strong> —— Flash可以提供一个简单的替换。 使用Flash最明显的缺点是并非所有客户端都安装了Flash，而且某些客户端，如iPhone/iPad，不支持Flash。</p>
-<p><strong>AJAX Long-Polling技术</strong> —— 用AJAX的long-polling来模拟WebSocket在业界已经有一段时间了。它是一个可行的技术，但它不能优化发送的信息。也就是说，它是一个解决方案，但不是最佳的技术方案。</p>
-<p>由于目前的IE等浏览器不支持WebSocket，要提供WebSocket的事件处理、返回传输、在服务器端使用一个统一的API，那么该怎么办呢？幸运的是，Guillermo Rauch创建了一个Socket.IO技术。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1912,7 +1955,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="webpack是现在使用最广泛的打包工具，公司项目也一直使用。最近随着公司项目资源及文件慢慢庞大,打包速度越来越慢。因此上网搜索找到解决办法：使用webpack插件webpack.DllPlugin与webpack.DllReferencePlugin将不需要改动的第三方插件与自己的业务代码进行分开打包，首先：在项目根目录新建一个文件webpack.dll.config.js 12345678">
+<meta name="description" content="以下是当你在设计, 测试以及发布你的 API 的时候所需要核对的重要安全措施  身份认证 不要使用 Basic Auth 使用标准的认证协议 (如 JWT, OAuth). 不要再造 Authentication, token generating, password storing 这些轮子, 使用标准的. 在登录中使用 Max Retry 和自动封禁功能. 加密所有的敏感数据.  JWT">
 <meta property="og:type" content="article">
-<meta property="og:title" content="webpack优化打包速度之webpack.DllPlugin与webpack.DllReferencePlugin">
-<meta property="og:url" content="http://yoursite.com/2018/01/20/webpack优化打包速度之DllPlugin/index.html">
+<meta property="og:title" content="web开发安全的API">
+<meta property="og:url" content="http://yoursite.com/2018/02/28/web开发安全的API/index.html">
 <meta property="og:site_name" content="杨勇冠的博客">
-<meta property="og:description" content="webpack是现在使用最广泛的打包工具，公司项目也一直使用。最近随着公司项目资源及文件慢慢庞大,打包速度越来越慢。因此上网搜索找到解决办法：使用webpack插件webpack.DllPlugin与webpack.DllReferencePlugin将不需要改动的第三方插件与自己的业务代码进行分开打包，首先：在项目根目录新建一个文件webpack.dll.config.js 12345678">
+<meta property="og:description" content="以下是当你在设计, 测试以及发布你的 API 的时候所需要核对的重要安全措施  身份认证 不要使用 Basic Auth 使用标准的认证协议 (如 JWT, OAuth). 不要再造 Authentication, token generating, password storing 这些轮子, 使用标准的. 在登录中使用 Max Retry 和自动封禁功能. 加密所有的敏感数据.  JWT">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-01T12:36:14.808Z">
+<meta property="og:updated_time" content="2018-11-02T08:15:34.833Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="webpack优化打包速度之webpack.DllPlugin与webpack.DllReferencePlugin">
-<meta name="twitter:description" content="webpack是现在使用最广泛的打包工具，公司项目也一直使用。最近随着公司项目资源及文件慢慢庞大,打包速度越来越慢。因此上网搜索找到解决办法：使用webpack插件webpack.DllPlugin与webpack.DllReferencePlugin将不需要改动的第三方插件与自己的业务代码进行分开打包，首先：在项目根目录新建一个文件webpack.dll.config.js 12345678">
+<meta name="twitter:title" content="web开发安全的API">
+<meta name="twitter:description" content="以下是当你在设计, 测试以及发布你的 API 的时候所需要核对的重要安全措施  身份认证 不要使用 Basic Auth 使用标准的认证协议 (如 JWT, OAuth). 不要再造 Authentication, token generating, password storing 这些轮子, 使用标准的. 在登录中使用 Max Retry 和自动封禁功能. 加密所有的敏感数据.  JWT">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/01/20/webpack优化打包速度之DllPlugin/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/02/28/web开发安全的API/"/>
 
 
 
 
 
-  <title>webpack优化打包速度之webpack.DllPlugin与webpack.DllReferencePlugin | 杨勇冠的博客</title>
+  <title>web开发安全的API | 杨勇冠的博客</title>
   
 
 
@@ -242,7 +242,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/20/webpack优化打包速度之DllPlugin/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/28/web开发安全的API/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="杨勇冠">
@@ -259,7 +259,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">webpack优化打包速度之webpack.DllPlugin与webpack.DllReferencePlugin</h1>
+          <h1 class="post-title" itemprop="name headline">web开发安全的API</h1>
         
 
         <div class="post-meta">
@@ -271,8 +271,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-20T12:01:36+08:00">
-                2018-01-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-28T10:15:16+08:00">
+                2018-02-28
               </time>
             
 
@@ -309,12 +309,64 @@
       
 
       
-        <p>  webpack是现在使用最广泛的打包工具，公司项目也一直使用。最近随着公司项目资源及文件慢慢庞大,打包速度越来越慢。因此上网搜索找到解决办法：<br>使用webpack插件webpack.DllPlugin与webpack.DllReferencePlugin将不需要改动的第三方插件与自己的业务代码进行分开打包，<br>首先：<br>在项目根目录新建一个文件webpack.dll.config.js</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path    = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">      vendor: [<span class="string">'vue-router'</span>,<span class="string">'vuex'</span>,<span class="string">'vue/dist/vue.common.js'</span>,<span class="string">'vue/dist/vue.js'</span>,<span class="string">'vue-loader/lib/component-normalizer.js'</span>,<span class="string">'vue'</span>]</span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: path.resolve(base.path),</span><br><span class="line">    filename: <span class="string">'[name].dll.js'</span>,</span><br><span class="line">    library: <span class="string">'[name]_library'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> webpack.DllPlugin(&#123;</span><br><span class="line">      path: path.resolve(<span class="string">'./dist'</span>, <span class="string">'[name]-manifest.json'</span>),</span><br><span class="line">      name: <span class="string">'[name]_library'</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>将是用到的第三方插件添加到vendor中<br>然后：在webpack.config.js中添加代码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">    <span class="keyword">new</span> webpack.DllReferencePlugin(&#123;</span><br><span class="line">      manifest: <span class="built_in">require</span>(<span class="string">'./dist/vendor-manifest.json'</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
-<p>还需要在入口html文件中引入vendor.dll.js<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"./../vendor.dll.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure></p>
-<p>然后在package.json文件中添加快捷命令(划线句子），指定执行文件：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"build:dll"</span>: <span class="string">"webpack --config webpack.dll.config.js"</span></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure></p>
-<p>最后打包的时候首先执行npm run build:dll命令会在打包目录下生成<br>vendor-manifest.json文件与vendor.dll.js文件。<br>Dll这个概念应该是借鉴了Windows系统的dll。一个dll包，就是一个纯纯的依赖库，它本身不能运行，是用来给你的app引用的。<br>打包dll的时候，Webpack会将所有包含的库做一个索引，写在一个manifest文件中，而引用dll的代码（dll user）在打包的时候，只需要读取这个manifest文件，就可以了。<br>然后在执行npm run build<br>发现现在的webpack打包速度就快了很多。</p>
+        <p>  以下是当你在设计, 测试以及发布你的 API 的时候所需要核对的重要安全措施</p>
+<hr>
+<h2 id="身份认证"><a href="#身份认证" class="headerlink" title="身份认证"></a>身份认证</h2><ul>
+<li>不要使用 Basic Auth 使用标准的认证协议 (如 JWT, OAuth).</li>
+<li>不要再造 Authentication, token generating, password storing 这些轮子, 使用标准的.</li>
+<li>在登录中使用 Max Retry 和自动封禁功能.</li>
+<li>加密所有的敏感数据.</li>
+</ul>
+<h2 id="JWT-JSON-Web-Token"><a href="#JWT-JSON-Web-Token" class="headerlink" title="JWT (JSON Web Token)"></a>JWT (JSON Web Token)</h2><ul>
+<li>使用随机复杂的密钥 (JWT Secret) 以增加暴力破解的难度.</li>
+<li>不要在请求体中直接提取数据, 要对数据进行加密 (HS256 或 RS256).</li>
+<li>使 token 的过期时间尽量的短 (TTL, RTTL).</li>
+<li>不要在 JWT 的请求体中存放敏感数据, 它是可破解的.</li>
+</ul>
+<h2 id="OAuth-授权或认证协议"><a href="#OAuth-授权或认证协议" class="headerlink" title="OAuth 授权或认证协议"></a>OAuth 授权或认证协议</h2><ul>
+<li>始终在后台验证 redirect_uri, 只允许白名单的 URL.</li>
+<li>每次交换令牌的时候不要加 token (不允许 response_type=token).</li>
+<li>使用 state 参数并填充随机的哈希数来防止跨站请求伪造(CSRF).</li>
+<li>对不同的应用分别定义默认的作用域和各自有效的作用域参数.</li>
+</ul>
+<h2 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h2><ul>
+<li>限制流量来防止 DDoS 攻击和暴力攻击.</li>
+<li>在服务端使用 HTTPS 协议来防止 MITM 攻击.</li>
+<li>使用 HSTS 协议防止 SSLStrip 攻击.</li>
+</ul>
+<h2 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h2><ul>
+<li>使用与操作相符的 HTTP 操作函数, GET (读取), POST (创建), PUT (替换/更新) 以及 DELETE (删除记录), 如果请求的方法不适用于请求的资源则返回 405 Method Not Allowed.</li>
+<li>在请求头中的 content-type 字段使用内容验证来只允许支持的格式 (如 application/xml, application/json 等等) 并在不满足条件的时候返回 406 Not Acceptable.</li>
+<li>验证 content-type 的发布数据和你收到的一样 (如 application/x-www-form-urlencoded, multipart/form-data, application/json 等等).</li>
+<li>验证用户输入来避免一些普通的易受攻击缺陷 (如 XSS, SQL-注入, 远程代码执行 等等).</li>
+<li>不要在 URL 中使用任何敏感的数据 (credentials, Passwords, security tokens, or API keys), 而是使用标准的认证请求头.</li>
+<li>使用一个 API Gateway 服务来启用缓存、访问速率限制 (如 Quota, Spike Arrest, Concurrent Rate Limit) 以及动态地部署 APIs resources.</li>
+</ul>
+<h2 id="处理"><a href="#处理" class="headerlink" title="处理"></a>处理</h2><ul>
+<li>检查是否所有的终端都在身份认证之后, 以避免被破坏了的认证体系.</li>
+<li>避免使用特有的资源 id. 使用 /me/orders 替代 /user/654321/orders</li>
+<li>使用 UUID 代替自增长的 id.</li>
+<li>如果需要解析 XML 文件, 确保实体解析(entity parsing)是关闭的以避免 XXE 攻击.</li>
+<li>如果需要解析 XML 文件, 确保实体扩展(entity expansion)是关闭的以避免通过指数实体扩展攻击实现的 Billion Laughs/XML bomb.</li>
+<li>在文件上传中使用 CDN.</li>
+<li>如果需要处理大量的数据, 使用 Workers 和 Queues 来快速响应, 从而避免 HTTP 阻塞.</li>
+<li>不要忘了把 DEBUG 模式关掉.</li>
+</ul>
+<h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><ul>
+<li>发送 X-Content-Type-Options: nosniff 头.</li>
+<li>发送 X-Frame-Options: deny 头.</li>
+<li>发送 Content-Security-Policy: default-src ‘none’ 头.</li>
+<li>删除指纹头 - X-Powered-By, Server, X-AspNet-Version 等等.</li>
+<li>在响应中强制使用 content-type, 如果你的类型是 application/json 那么你的 content-type 就是 application/json.</li>
+<li>不要返回敏感的数据, 如 credentials, Passwords, security tokens.</li>
+<li>在操作结束时返回恰当的状态码. (如 200 OK, 400 Bad Request, 401 Unauthorized, 405 Method Not Allowed 等等).</li>
+</ul>
+<h2 id="持续集成和持续部署"><a href="#持续集成和持续部署" class="headerlink" title="持续集成和持续部署"></a>持续集成和持续部署</h2><ul>
+<li>使用单元测试和集成测试来审计你的设计和实现.</li>
+<li>引入代码审查流程, 不要自行批准更改.</li>
+<li>在推送到生产环境之前确保服务的所有组件都用杀毒软件静态地扫描过, 包括第三方库和其它依赖.</li>
+<li>为部署设计一个回滚方案.</li>
+</ul>
 
       
     </div>
@@ -339,8 +391,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/10/按需加载babel-polyfill/" rel="next" title="按需加载babel-polyfill">
-                <i class="fa fa-chevron-left"></i> 按需加载babel-polyfill
+              <a href="/2018/01/20/webpack优化打包速度之DllPlugin/" rel="next" title="webpack优化打包速度之webpack.DllPlugin与webpack.DllReferencePlugin">
+                <i class="fa fa-chevron-left"></i> webpack优化打包速度之webpack.DllPlugin与webpack.DllReferencePlugin
               </a>
             
           </div>
@@ -348,10 +400,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/02/28/web开发安全的API/" rel="prev" title="web开发安全的API">
-                web开发安全的API <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -403,8 +451,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -450,6 +507,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#身份认证"><span class="nav-number">1.</span> <span class="nav-text">身份认证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JWT-JSON-Web-Token"><span class="nav-number">2.</span> <span class="nav-text">JWT (JSON Web Token)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OAuth-授权或认证协议"><span class="nav-number">3.</span> <span class="nav-text">OAuth 授权或认证协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#访问"><span class="nav-number">4.</span> <span class="nav-text">访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入"><span class="nav-number">5.</span> <span class="nav-text">输入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理"><span class="nav-number">6.</span> <span class="nav-text">处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输出"><span class="nav-number">7.</span> <span class="nav-text">输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#持续集成和持续部署"><span class="nav-number">8.</span> <span class="nav-text">持续集成和持续部署</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
