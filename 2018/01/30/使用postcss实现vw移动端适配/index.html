@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="有关于移动端的适配布局一直以来都是众说纷纭，对应的解决方案也是有很多种。在《使用Flexible实现手淘H5页面的终端适配》提出了Flexible的布局方案，随着viewport单位越来越受到众多浏览器的支持，因此在《再聊移动端页面的适配》一文中提出了vw来做移动端的适配问题。到目前为止不管是哪一种方案，都还存在一定的缺陷。在接触到大漠先生牵头开发的vw解决方案之前，我使用的是阿里的第一代适配解决">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用postcss实现vw移动端适配">
+<meta property="og:url" content="http://yoursite.com/2018/01/30/使用postcss实现vw移动端适配/index.html">
+<meta property="og:site_name" content="杨勇冠的博客">
+<meta property="og:description" content="有关于移动端的适配布局一直以来都是众说纷纭，对应的解决方案也是有很多种。在《使用Flexible实现手淘H5页面的终端适配》提出了Flexible的布局方案，随着viewport单位越来越受到众多浏览器的支持，因此在《再聊移动端页面的适配》一文中提出了vw来做移动端的适配问题。到目前为止不管是哪一种方案，都还存在一定的缺陷。在接触到大漠先生牵头开发的vw解决方案之前，我使用的是阿里的第一代适配解决">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-15T10:08:55.454Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用postcss实现vw移动端适配">
+<meta name="twitter:description" content="有关于移动端的适配布局一直以来都是众说纷纭，对应的解决方案也是有很多种。在《使用Flexible实现手淘H5页面的终端适配》提出了Flexible的布局方案，随着viewport单位越来越受到众多浏览器的支持，因此在《再聊移动端页面的适配》一文中提出了vw来做移动端的适配问题。到目前为止不管是哪一种方案，都还存在一定的缺陷。在接触到大漠先生牵头开发的vw解决方案之前，我使用的是阿里的第一代适配解决">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/30/使用postcss实现vw移动端适配/"/>
+
+
+
+
+
+  <title>使用postcss实现vw移动端适配 | 杨勇冠的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">杨勇冠的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">自律者自强</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/30/使用postcss实现vw移动端适配/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="杨勇冠">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/yyg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="杨勇冠的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用postcss实现vw移动端适配</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-30T12:01:36+08:00">
+                2018-01-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>有关于移动端的适配布局一直以来都是众说纷纭，对应的解决方案也是有很多种。在《<a href="http://web.jobbole.com/84285/" target="_blank" rel="noopener">使用Flexible实现手淘H5页面的终端适配</a>》提出了Flexible的布局方案，<br>随着viewport单位越来越受到众多浏览器的支持，因此在《<a href="https://www.cnblogs.com/zhouyangla/p/9273700.html" target="_blank" rel="noopener">再聊移动端页面的适配</a>》一文中提出了vw来做移动端的适配问题。<br>到目前为止不管是哪一种方案，都还存在一定的缺陷。在接触到大漠先生牵头开发的vw解决方案之前，我使用的是阿里的第一代适配解决方案 lib-flexible 在使用vw解决方案开发一套H5之后，我真正的被vw的威力所折服。<br>话不多说开工</p>
+<hr>
+
+<h4 id="使用vue-cli新建项目"><a href="#使用vue-cli新建项目" class="headerlink" title="使用vue-cli新建项目"></a>使用vue-cli新建项目</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vue init webpack vue-demo</span><br><span class="line">cd vue-demo</span><br><span class="line">npm run dev</span><br></pre></td></tr></table></figure>
+<h4 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i postcss-aspect-ratio-mini postcss-px-to-viewport postcss-write-svg postcss-cssnext postcss-viewport-units cssnano cssnano-preset-advanced --S</span><br></pre></td></tr></table></figure>
+<h4 id="配置postcssrc-js"><a href="#配置postcssrc-js" class="headerlink" title="配置postcssrc.js"></a>配置postcssrc.js</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="string">"plugins"</span>: &#123;</span><br><span class="line">    <span class="string">"postcss-import"</span>: &#123;&#125;,</span><br><span class="line">    <span class="string">"postcss-url"</span>: &#123;&#125;,</span><br><span class="line">    <span class="string">"postcss-aspect-ratio-mini"</span>: &#123;&#125;,</span><br><span class="line">    <span class="string">"postcss-write-svg"</span>: &#123; <span class="attr">utf8</span>: <span class="literal">false</span> &#125;,</span><br><span class="line">    <span class="string">"postcss-cssnext"</span>: &#123;&#125;,</span><br><span class="line">    <span class="string">"postcss-px-to-viewport"</span>: &#123;</span><br><span class="line">      viewportWidth: <span class="number">750</span>, <span class="comment">// 视窗的宽度，对应的是我们设计稿的宽度，一般是750</span></span><br><span class="line">      viewportHeight: <span class="number">1334</span>, <span class="comment">// 视窗的高度，根据750设备的宽度来指定，一般指定1334，也可以不配置</span></span><br><span class="line">      unitPrecision: <span class="number">3</span>, <span class="comment">// 指定`px`转换为视窗单位值的小数位数（很多时候无法整除）</span></span><br><span class="line">      viewportUnit: <span class="string">'vw'</span>, <span class="comment">// 转换成的视窗单位，建议使用vw</span></span><br><span class="line">      selectorBlackList: [<span class="string">'.ignore'</span>, <span class="string">'.hairlines'</span>], <span class="comment">// 指定不转换为视窗单位的类，可以自定义，可以无限添加,建议定义一至两个通用的类名</span></span><br><span class="line">      minPixelValue: <span class="number">1</span>, <span class="comment">// 小于或等于`1px`不转换为视窗单位，你也可以设置为你想要的值</span></span><br><span class="line">      mediaQuery: <span class="literal">false</span> <span class="comment">// 是否允许在媒体查询中转换`px`</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"postcss-viewport-units"</span>: &#123;&#125;,</span><br><span class="line">    <span class="string">"cssnano"</span>: &#123;</span><br><span class="line">      preset: <span class="string">"advanced"</span>,</span><br><span class="line">      autoprefixer: <span class="literal">false</span>,</span><br><span class="line">      <span class="string">"postcss-zindex"</span>: <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><ul>
+<li>容器适配，可以使用vw</li>
+<li>文本的适配，可以使用vw</li>
+<li>大于1px的边框、圆角、阴影都可以使用vw</li>
+<li>内距和外距，可以使用vw</li>
+</ul>
+<hr>
+
+<h2 id="postcss-write-svg-实现Retina屏1像素边框"><a href="#postcss-write-svg-实现Retina屏1像素边框" class="headerlink" title="postcss-write-svg 实现Retina屏1像素边框"></a>postcss-write-svg 实现Retina屏1像素边框</h2><p>首先记得在heade头加入<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="如果部分机型有问题，换插件降级处理"><a href="#如果部分机型有问题，换插件降级处理" class="headerlink" title="如果部分机型有问题，换插件降级处理"></a>如果部分机型有问题，换插件降级处理</h4><p>使用 <a href="https://github.com/rodneyrehm/viewport-units-buggyfill" target="_blank" rel="noopener">Viewport Units Buggyfill</a> 插件<br>在vue项目的index.html文件head标签添加引用<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"//g.alicdn.com/fdilab/lib3rd/viewport-units-buggyfill/0.6.2/??viewport-units-buggyfill.hacks.min.js,viewport-units-buggyfill.min.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure></p>
+<p>在Index.html文件body标签后添加以下代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">  <span class="comment">// vw兼容性处理viewport-units-buggyfill</span></span><br><span class="line">    <span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="built_in">window</span>.viewportUnitsBuggyfill.init(&#123; <span class="attr">hacks</span>: <span class="built_in">window</span>.viewportUnitsBuggyfillHacks &#125;);</span><br><span class="line">      <span class="comment">//以下代码用户测试</span></span><br><span class="line">      <span class="comment">// var winDPI = window.devicePixelRatio;</span></span><br><span class="line">      <span class="comment">// var uAgent = window.navigator.userAgent;</span></span><br><span class="line">      <span class="comment">// var screenHeight = window.screen.height;</span></span><br><span class="line">      <span class="comment">// var screenWidth = window.screen.width;</span></span><br><span class="line">      <span class="comment">// var winWidth = window.innerWidth;</span></span><br><span class="line">      <span class="comment">// var winHeight = window.innerHeight;</span></span><br><span class="line">      <span class="comment">// console.log("Windows DPI:" + winDPI + ";\ruAgent:" + uAgent + ";\rScreen Width:" +</span></span><br><span class="line">      <span class="comment">//   screenWidth + ";\rScreen Height:" + screenHeight + ";\rWindow Width:" + winWidth +</span></span><br><span class="line">      <span class="comment">//   ";\rWindow Height:" + winHeight)</span></span><br><span class="line">    &#125;</span><br><span class="line">  &lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+<p>最后做个对img兼容处理，在全局添加(在main.js 用 Import ‘@/common/index.css’)</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">script</span>&gt;</span><br><span class="line">    <span class="selector-tag">img</span> &#123;</span><br><span class="line">      <span class="attribute">content</span>: normal <span class="meta">!important</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/20/webpack优化打包速度之DllPlugin/" rel="next" title="webpack优化打包速度之webpack.DllPlugin与webpack.DllReferencePlugin">
+                <i class="fa fa-chevron-left"></i> webpack优化打包速度之webpack.DllPlugin与webpack.DllReferencePlugin
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/28/web开发安全的API/" rel="prev" title="web开发安全的API">
+                web开发安全的API <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/img/yyg.jpg"
+                alt="杨勇冠" />
+            
+              <p class="site-author-name" itemprop="name">杨勇冠</p>
+              <p class="site-description motion-element" itemprop="description">杨勇冠的博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用vue-cli新建项目"><span class="nav-number">1.</span> <span class="nav-text">使用vue-cli新建项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装依赖"><span class="nav-number">2.</span> <span class="nav-text">安装依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置postcssrc-js"><span class="nav-number">3.</span> <span class="nav-text">配置postcssrc.js</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#说明"><span class="nav-number"></span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#postcss-write-svg-实现Retina屏1像素边框"><span class="nav-number"></span> <span class="nav-text">postcss-write-svg 实现Retina屏1像素边框</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#如果部分机型有问题，换插件降级处理"><span class="nav-number">1.</span> <span class="nav-text">如果部分机型有问题，换插件降级处理</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨勇冠</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

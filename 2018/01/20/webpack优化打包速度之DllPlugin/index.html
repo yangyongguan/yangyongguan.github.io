@@ -312,7 +312,7 @@
         <p>  webpack是现在使用最广泛的打包工具，公司项目也一直使用。最近随着公司项目资源及文件慢慢庞大,打包速度越来越慢。因此上网搜索找到解决办法：<br>使用webpack插件webpack.DllPlugin与webpack.DllReferencePlugin将不需要改动的第三方插件与自己的业务代码进行分开打包，<br>首先：<br>在项目根目录新建一个文件webpack.dll.config.js</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path    = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">      vendor: [<span class="string">'vue-router'</span>,<span class="string">'vuex'</span>,<span class="string">'vue/dist/vue.common.js'</span>,<span class="string">'vue/dist/vue.js'</span>,<span class="string">'vue-loader/lib/component-normalizer.js'</span>,<span class="string">'vue'</span>]</span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: path.resolve(base.path),</span><br><span class="line">    filename: <span class="string">'[name].dll.js'</span>,</span><br><span class="line">    library: <span class="string">'[name]_library'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> webpack.DllPlugin(&#123;</span><br><span class="line">      path: path.resolve(<span class="string">'./dist'</span>, <span class="string">'[name]-manifest.json'</span>),</span><br><span class="line">      name: <span class="string">'[name]_library'</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>将是用到的第三方插件添加到vendor中<br>然后：在webpack.config.js中添加代码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">    <span class="keyword">new</span> webpack.DllReferencePlugin(&#123;</span><br><span class="line">      manifest: <span class="built_in">require</span>(<span class="string">'./dist/vendor-manifest.json'</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
-<p>还需要在入口html文件中引入vendor.dll.js<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"./../vendor.dll.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure></p>
+<p>还需要在入口html文件中引入vendor.dll.js<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"./../vendor.dll.js"</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
 <p>然后在package.json文件中添加快捷命令(划线句子），指定执行文件：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"build:dll"</span>: <span class="string">"webpack --config webpack.dll.config.js"</span></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure></p>
 <p>最后打包的时候首先执行npm run build:dll命令会在打包目录下生成<br>vendor-manifest.json文件与vendor.dll.js文件。<br>Dll这个概念应该是借鉴了Windows系统的dll。一个dll包，就是一个纯纯的依赖库，它本身不能运行，是用来给你的app引用的。<br>打包dll的时候，Webpack会将所有包含的库做一个索引，写在一个manifest文件中，而引用dll的代码（dll user）在打包的时候，只需要读取这个manifest文件，就可以了。<br>然后在执行npm run build<br>发现现在的webpack打包速度就快了很多。</p>
 
@@ -349,8 +349,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/02/28/web开发安全的API/" rel="prev" title="web开发安全的API">
-                web开发安全的API <i class="fa fa-chevron-right"></i>
+              <a href="/2018/01/30/使用postcss实现vw移动端适配/" rel="prev" title="使用postcss实现vw移动端适配">
+                使用postcss实现vw移动端适配 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -423,7 +423,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
